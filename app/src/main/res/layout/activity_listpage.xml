@@ -18,7 +18,17 @@
         android:layout_margin="10sp"
 
         />
-
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:text="NEW BOOK"
+        android:backgroundTint="#033750"
+        android:textSize="16sp"
+        android:textColor="#2196F3"
+        android:id="@+id/btnAddLivro"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
+        />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
