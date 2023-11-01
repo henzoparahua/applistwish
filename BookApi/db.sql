@@ -4,7 +4,7 @@ use Android;
 
 CREATE TABLE Livros (
 
-    id int auto_increment,
+    id int primary key auto_increment,
     nome varchar(60) not null,
     autor varchar(30),
     editora varchar(30),
