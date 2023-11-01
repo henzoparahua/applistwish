@@ -20,6 +20,16 @@ public class Forms extends AppCompatActivity {
     Button btnVoltar, btnAdd;
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
+    private void createBook(String nome, String autor, String editora, String genero){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("nome", nome);
+        params.put("autor", autor);
+        params.put("editora", (editora));
+        params.put("genero", genero);
+
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_HERO, params, CODE_POST_REQUEST);
+        request.execute();
+    }
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
         String url;
         HashMap<String, String> params;
@@ -62,6 +72,7 @@ public class Forms extends AppCompatActivity {
 
             return null;
         }
+
     }
 
     @Override
@@ -80,25 +91,15 @@ public class Forms extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            createBook();
+                String nome = findViewById(R.id.txtTitulo).toString().trim();
+                String autor = findViewById(R.id.txtAutora).toString().trim();
+                String editora = findViewById(R.id.txtEditora).toString().trim();
+                String genero = findViewById(R.id.txtGenero).toString().trim();
+                createBook(nome, autor, editora, genero);
             }
         });
 
     }
 
-    private void createBook(){
-        String nome = findViewById(R.id.Titulo).toString();
-        String autor = findViewById(R.id.Autor).toString();
-        String editora = findViewById(R.id.Editora).toString();
-        String genero = findViewById(R.id.Genero).toString();
 
-        HashMap<String, String> params = new HashMap<>();
-        params.put("nome", nome);
-        params.put("autor", autor);
-        params.put("editora", (editora));
-        params.put("genero", genero);
-
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_HERO, params, CODE_POST_REQUEST);
-        request.execute();
-    }
 }
