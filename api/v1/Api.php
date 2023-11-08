@@ -43,7 +43,7 @@
 
 				$db = new DbOperation();
 
-				$result = $db->createHero(
+				$result = $db->createBook(
 					$_POST['nome'],
 					$_POST['autor'],
 					$_POST['editora'],

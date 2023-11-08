@@ -1,4 +1,4 @@
-    DROP DATABASE IF EXISTS Livros;
+    DROP DATABASE IF EXISTS Android;
     CREATE DATABASE IF NOT EXISTS Livros;
     use livros;
 
