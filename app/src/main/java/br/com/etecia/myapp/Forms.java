@@ -1,15 +1,16 @@
 package br.com.etecia.myapp;
 
-import static android.view.View.GONE;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 
 public class Forms extends AppCompatActivity {
     Button btnVoltar, btnAdd;
+    TextInputEditText nome, autor, editora, genero;
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
     private void createBook(String nome, String autor, String editora, String genero){
@@ -49,15 +51,24 @@ public class Forms extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONObject object = new JSONObject(s);
-                if (!object.getBoolean("error")) {
-                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+            Log.d("API_RESPONSE", "Response: " + s);
+
+            // Adicione verificação se a resposta é válida JSON
+            if (s.startsWith("{")) {
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (!object.getBoolean("error")) {
+                        Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                // Trate a resposta inválida ou exiba uma mensagem de erro
+                Log.e("API_RESPONSE", "Invalid JSON response");
             }
         }
+
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -81,6 +92,11 @@ public class Forms extends AppCompatActivity {
         setContentView(R.layout.activity_forms);
         btnVoltar = findViewById(R.id.btnVoltar);
         btnAdd = findViewById(R.id.btnConfirmar);
+        nome = findViewById(R.id.txtTitulo);
+        editora = findViewById(R.id.txtEditora);
+        autor = findViewById(R.id.txtAutora);
+        genero = findViewById(R.id.txtGenero);
+
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,11 +107,15 @@ public class Forms extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nome = findViewById(R.id.txtTitulo).toString().trim();
-                String autor = findViewById(R.id.txtAutora).toString().trim();
-                String editora = findViewById(R.id.txtEditora).toString().trim();
-                String genero = findViewById(R.id.txtGenero).toString().trim();
-                createBook(nome, autor, editora, genero);
+                String txtNome = nome.getText().toString(),
+                        txtAutor = autor.getText().toString(),
+                        txtEditora = editora.getText().toString(),
+                        txtGenero = genero.getText().toString();
+                createBook(txtNome, txtAutor, txtEditora, txtGenero);
+                nome.getText().clear();
+                autor.getText().clear();
+                editora.getText().clear();
+                genero.getText().clear();
             }
         });
 

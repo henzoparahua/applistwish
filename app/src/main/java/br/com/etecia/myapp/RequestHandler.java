@@ -1,5 +1,4 @@
 package br.com.etecia.myapp;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -16,7 +15,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class RequestHandler {
 
-    public String sendPostRequest(String requestURL, HashMap<String, String> postDataParams) {
+    public String sendPostRequest(String requestURL,
+                                  HashMap<String, String> postDataParams) {
         //Criando a URL
         URL url;
 

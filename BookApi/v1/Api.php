@@ -37,17 +37,17 @@
 		
 		switch($_GET['apicall']){
 	
-			case 'createhero':
+			case 'createbook':
 				
-				isTheseParametersAvailable(array('name','realname','rating','teamaffiliation'));
+				isTheseParametersAvailable(array('nome','autor','editora','genero'));
 				
 				$db = new DbOperation();
 				
-				$result = $db->createHero(
-					$_POST['name'],
-					$_POST['realname'],
-					$_POST['rating'],
-					$_POST['teamaffiliation']
+				$result = $db->createBook(
+					$_POST['nome'],
+					$_POST['autor'],
+					$_POST['editora'],
+					$_POST['genero']
 				);
 				
 
@@ -57,10 +57,10 @@
 					$response['error'] = false; 
 
 					
-					$response['message'] = 'Herói adicionado com sucesso';
+					$response['message'] = 'Livro adicionado com sucesso';
 
 					
-					$response['heroes'] = $db->getHeroes();
+					$response['livros'] = $db->getBooks();
 				}else{
 
 					
@@ -73,30 +73,30 @@
 			break; 
 			
 		
-			case 'getheroes':
+			case 'getbooks':
 				$db = new DbOperation();
 				$response['error'] = false; 
 				$response['message'] = 'Pedido concluído com sucesso';
-				$response['heroes'] = $db->getHeroes();
+				$response['livros'] = $db->getBooks();
 			break; 
 			
 			
 		
 			case 'updatehero':
-				isTheseParametersAvailable(array('id','name','realname','rating','teamaffiliation'));
+				isTheseParametersAvailable(array('id','nome','autor','editora','genero'));
 				$db = new DbOperation();
-				$result = $db->updateHero(
+				$result = $db->updateBook(
 					$_POST['id'],
-					$_POST['name'],
-					$_POST['realname'],
-					$_POST['rating'],
-					$_POST['teamaffiliation']
+					$_POST['nome'],
+					$_POST['autor'],
+					$_POST['editora'],
+					$_POST['genero']
 				);
 				
 				if($result){
 					$response['error'] = false; 
-					$response['message'] = 'Herói atualizado com sucesso';
-					$response['heroes'] = $db->getHeroes();
+					$response['message'] = 'Livro atualizado com sucesso';
+					$response['livros'] = $db->getBooks();
 				}else{
 					$response['error'] = true; 
 					$response['message'] = 'Algum erro ocorreu por favor tente novamente';
@@ -104,15 +104,15 @@
 			break; 
 			
 			
-			case 'deletehero':
+			case 'deletebook':
 
 				
 				if(isset($_GET['id'])){
 					$db = new DbOperation();
-					if($db->deleteHero($_GET['id'])){
+					if($db->deleteBook($_GET['id'])){
 						$response['error'] = false; 
-						$response['message'] = 'Herói excluído com sucesso';
-						$response['heroes'] = $db->getHeroes();
+						$response['message'] = 'Livro excluído com sucesso';
+						$response['books'] = $db->getBooks();
 					}else{
 						$response['error'] = true; 
 						$response['message'] = 'Algum erro ocorreu por favor tente novamente';
