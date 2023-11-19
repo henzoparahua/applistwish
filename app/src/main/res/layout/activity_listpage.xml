@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ListPage">
+    tools:context=".ListPage"
+    android:background="#e7ffff"
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,6 +34,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listaLivros"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/RecycleViewLivros"
+            android:orientation="vertical"/>
 </LinearLayout>

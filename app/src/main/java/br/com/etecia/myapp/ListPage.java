@@ -20,39 +20,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListPage extends AppCompatActivity {
+ public class ListPage extends AppCompatActivity {
 
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
     List<Books> listaLivros;
-    RecyclerView idRecyclerView;
+    RecyclerView recycleViewLivros;
     Button addLivro;
-
+    Boolean isUpdating = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listpage);
 
-        idRecyclerView = findViewById(R.id.listaLivros);
+        recycleViewLivros = findViewById(R.id.RecycleViewLivros);
         addLivro = findViewById(R.id.btnAddLivro);
 
         addLivro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Forms.class));
+                startActivity(new Intent(getApplicationContext(), Forms.class));
                 finish();
+                if (isUpdating) {
+
+                }
             }
         });
+        readBooks();
 
         listaLivros = new ArrayList<>();
         listaLivros.add(new Books("Macaco", "Macumbeiraa", "macumbaiada", "Mandela"));
 
 
-        idRecyclerView.setLayoutManager(new
+        recycleViewLivros.setLayoutManager(new
                 GridLayoutManager(
-                getApplicationContext(), 2));
+                getApplicationContext(), 1));
 
-        idRecyclerView.setHasFixedSize(true);
+        recycleViewLivros.setHasFixedSize(true);
     }
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
         String url;
@@ -77,14 +81,13 @@ public class ListPage extends AppCompatActivity {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                    Log.d("ListPage", "Received JSON: " + object.toString());  // Add this line for debugging
                     refreshBookList(object.getJSONArray("livros"));
                 } else {
-                    Log.e("ListPage", "Error in server response: " + object.getString("message"));  // Add this line for debugging
+                    Log.e("ListPage", "Error in server response: " + object.getString("message"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("ListPage", "Error parsing JSON response: " + e.getMessage());  // Add this line for debugging
+                Log.e("ListPage", "Error parsing JSON response: " + e.getMessage());
             }
         }
 
@@ -102,19 +105,34 @@ public class ListPage extends AppCompatActivity {
             return null;
         }
     }
-    private void refreshBookList(JSONArray livros) throws JSONException {
-        listaLivros.clear();
-
-        for (int i = 0; i < livros.length(); i++){
-            JSONObject obj = livros.getJSONObject(i);
-            listaLivros.add(new Books(
-                    obj.getString("titulo"),
-                    obj.getString("editora"),
-                    obj.getString("genero"),
-                    obj.getString("autor")
-            ));
-        }
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), listaLivros);
-        idRecyclerView.setAdapter(adapter);
+    private void readBooks() {
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_READ_BOOKS, null, CODE_GET_REQUEST);
+        request.execute();
     }
-}
+     private void refreshBookList(JSONArray livros) {
+         try {
+             listaLivros.clear(); // Limpa a lista existente antes de adicionar os novos livros
+             for (int i = 0; i < livros.length(); i++) {
+                 JSONObject obj = livros.getJSONObject(i);
+                 listaLivros.add(new Books(
+                         obj.getString("nome"),
+                         obj.getString("autor"),
+                         obj.getString("editora"),
+                         obj.getString("genero")
+                 ));
+             }
+
+             // Notifica o adaptador que os dados foram alterados
+             if (recycleViewLivros.getAdapter() != null) {
+                 recycleViewLivros.getAdapter().notifyDataSetChanged();
+             } else {
+                 MyAdapter adapter = new MyAdapter(listaLivros);
+                 recycleViewLivros.setAdapter(adapter);
+             }
+         } catch (JSONException e) {
+             e.printStackTrace();
+         }
+     }
+
+
+ }

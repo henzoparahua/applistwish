@@ -29,7 +29,7 @@ public class Forms extends AppCompatActivity {
         params.put("editora", (editora));
         params.put("genero", genero);
 
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_HERO, params, CODE_POST_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_BOOKS, params, CODE_POST_REQUEST);
         request.execute();
     }
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
