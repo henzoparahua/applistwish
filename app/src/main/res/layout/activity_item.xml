@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ItemActivity"
     android:orientation="vertical"
-    tools:context=".Forms"
     android:background="#e7ffff"
     >
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:text="ADICIONAR LIVRO"
+        android:text="TITULO DO LIVRO"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -78,7 +78,6 @@
             android:layout_marginHorizontal="10dp"
             android:hint="Genero" />
     </com.google.android.material.textfield.TextInputLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,27 +85,49 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnConfirmar"
+            android:id="@+id/btnSalvar"
             android:layout_width="190dp"
             android:layout_height="54dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="5dp"
             android:backgroundTint="#033750"
-            android:text="CONFIRMAR"
+            android:text="SALVAR"
             android:textColor="#2196F3"
             android:textSize="20sp" />
-
         <Button
             android:id="@+id/btnVoltar"
             android:layout_width="190dp"
             android:layout_height="54dp"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
             android:backgroundTint="#033750"
             android:text="VOLTAR"
             android:textColor="#2196F3"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginHorizontal="5dp"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|right"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="12dp"
+        >
+        <Button
+            android:id="@+id/btnDeletar"
+            android:layout_width="170dp"
+            android:layout_height="54dp"
+            android:backgroundTint="#360000"
+            android:text="DELETAR"
+            android:textColor="#B50000"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="22dp"/>
 
     </LinearLayout>
 
+    </LinearLayout>
 </LinearLayout>

@@ -1,10 +1,11 @@
 package br.com.etecia.myapp;
 
 public class Books {
-
+    private int id;
     private String titulo, editora, genero, autor;
 
-    public Books(String titulo, String editora, String genero, String autor) {
+    public Books(Integer id, String titulo, String editora, String genero, String autor) {
+        this.id = id;
         this.titulo = titulo;
         this.editora = editora;
         this.genero = genero;
@@ -41,5 +42,9 @@ public class Books {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public int getId() {
+        return id;
     }
 }

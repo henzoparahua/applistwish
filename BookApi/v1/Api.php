@@ -38,35 +38,21 @@
 		switch($_GET['apicall']){
 	
 			case 'createbook':
-				
 				isTheseParametersAvailable(array('nome','autor','editora','genero'));
-				
 				$db = new DbOperation();
-				
 				$result = $db->createBook(
 					$_POST['nome'],
 					$_POST['autor'],
 					$_POST['editora'],
 					$_POST['genero']
 				);
-				
-
-			
 				if($result){
-					
-					$response['error'] = false; 
-
-					
+					$response['error'] = false;
 					$response['message'] = 'Livro adicionado com sucesso';
-
-					
 					$response['livros'] = $db->getBooks();
 				}else{
 
-					
-					$response['error'] = true; 
-
-				
+					$response['error'] = true;
 					$response['message'] = 'Algum erro ocorreu por favor tente novamente';
 				}
 				
@@ -82,7 +68,7 @@
 			
 			
 		
-			case 'updatehero':
+			case 'updatebook':
 				isTheseParametersAvailable(array('id','nome','autor','editora','genero'));
 				$db = new DbOperation();
 				$result = $db->updateBook(

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -49,7 +48,7 @@ import java.util.List;
         readBooks();
 
         listaLivros = new ArrayList<>();
-        listaLivros.add(new Books("Macaco", "Macumbeiraa", "macumbaiada", "Mandela"));
+        listaLivros.add(new Books(1, "Macaco", "Macumbeiraa", "macumbaiada", "Mandela"));
 
 
         recycleViewLivros.setLayoutManager(new
@@ -58,7 +57,7 @@ import java.util.List;
 
         recycleViewLivros.setHasFixedSize(true);
     }
-    private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
+    class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
         String url;
         HashMap<String, String> params;
         int requestCode;
@@ -80,7 +79,6 @@ import java.util.List;
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refreshBookList(object.getJSONArray("livros"));
                 } else {
                     Log.e("ListPage", "Error in server response: " + object.getString("message"));
@@ -115,6 +113,7 @@ import java.util.List;
              for (int i = 0; i < livros.length(); i++) {
                  JSONObject obj = livros.getJSONObject(i);
                  listaLivros.add(new Books(
+                         obj.getInt("id"),
                          obj.getString("nome"),
                          obj.getString("autor"),
                          obj.getString("editora"),
@@ -126,7 +125,7 @@ import java.util.List;
              if (recycleViewLivros.getAdapter() != null) {
                  recycleViewLivros.getAdapter().notifyDataSetChanged();
              } else {
-                 MyAdapter adapter = new MyAdapter(listaLivros);
+                 MyAdapter adapter = new MyAdapter(listaLivros, this);
                  recycleViewLivros.setAdapter(adapter);
              }
          } catch (JSONException e) {
